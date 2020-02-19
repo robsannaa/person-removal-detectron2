@@ -1,13 +1,11 @@
 import cv2
 import time
 
-
 # initialize the HOG descriptor
 hog = cv2.HOGDescriptor()
 hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
 cv2.startWindowThread()
-
 
 # open webcam
 cap = cv2.VideoCapture(0)
@@ -18,7 +16,6 @@ cap = cv2.VideoCapture(0)
 #     cv2.VideoWriter_fourcc(*'MJPG'),
 #     15.,
 #     (640,480))
-
 
 # 3 seconds in order to launch the program and clear the webcam view
 time.sleep(3)
@@ -51,7 +48,6 @@ frame = cv2.resize(frame, (640, 480))
 
 # using a greyscale picture, also for faster detection
 gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
-
 
 # detect people in the image
 # returns the bounding boxes for the detected objects
