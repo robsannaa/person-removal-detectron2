@@ -28,7 +28,7 @@ while True:
 
     if n_frame == 20:
         frame = cv2.resize(frame, (640, 480))
-        first_frame = frame
+        first_frame = frame.copy()
         break
 
 
@@ -56,8 +56,8 @@ while True:
 
     # iterate over each detected person and
     # substitute the area with the first frame
-    original = frame
-    rectangle = frame
+    original = frame.copy()
+    rectangle = frame.copy()
     
     for (x, y, w, h) in boxes:
 
@@ -68,14 +68,15 @@ while True:
         # frame[y:y + h, x:x + w] = first_frame[y:y + h, x:x + w]
 
         # for debugging show bounding rectangle
-        cv2.rectangle(original, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        #cv2.rectangle(original, (x, y), (x+w, y+h), (0, 255, 0), 2)
         cv2.rectangle(rectangle, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
     # also for debugging
     cv2.imshow('Current Frame', frame)
     cv2.imshow('First Frame', first_frame)
-    cv2.imshow('CLean Frame', original)
+    cv2.imshow('Clean Frame', original)
     cv2.imshow('Rectangle Frame', rectangle)
+
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
