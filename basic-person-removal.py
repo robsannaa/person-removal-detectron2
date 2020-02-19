@@ -31,6 +31,7 @@ while True:
         first_frame = frame
         break
 
+
 # reinstantiate frame to iterate over the video
 _, frame = cap.read()
 frame = cv2.resize(frame, (640, 480))
@@ -55,21 +56,26 @@ while True:
 
     # iterate over each detected person and
     # substitute the area with the first frame
+    original = frame
+    rectangle = frame
+    
     for (x, y, w, h) in boxes:
 
         crop_img = first_frame[y:y + h, x:x + w]
-        
         frame[y:y + h, x:x + w] = crop_img
+        
+        # could also write
+        # frame[y:y + h, x:x + w] = first_frame[y:y + h, x:x + w]
 
-    # could also write
-    # frame[y:y + h, x:x + w] = first_frame[y:y + h, x:x + w]
-
-    # for debugging show bounding rectangle
-    cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        # for debugging show bounding rectangle
+        cv2.rectangle(original, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        cv2.rectangle(rectangle, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
     # also for debugging
     cv2.imshow('Current Frame', frame)
     cv2.imshow('First Frame', first_frame)
+    cv2.imshow('CLean Frame', original)
+    cv2.imshow('Rectangle Frame', rectangle)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
