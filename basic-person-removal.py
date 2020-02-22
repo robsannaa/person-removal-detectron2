@@ -1,5 +1,7 @@
 import cv2
 import time
+import numpy as np
+
 
 # initialize the HOG descriptor
 hog = cv2.HOGDescriptor()
@@ -8,11 +10,11 @@ hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 cv2.startWindowThread()
 
 # open webcam
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('./video.MOV')
 
 # writing the output to a video
 out = cv2.VideoWriter(
-    'output.avi',
+    'output_hog.avi',
     cv2.VideoWriter_fourcc(*'MJPG'),
     15.,
     (640,480))
@@ -24,16 +26,20 @@ n_frame = 0
 # first frame is too dark, taking 19 th frame as anchor point
 while True:
     _, frame = cap.read()
+    frame = cv2.rotate(frame,rotateCode = 1) 
     n_frame += 1
 
     if n_frame == 20:
         frame = cv2.resize(frame, (640, 480))
+        frame = cv2.rotate(frame,rotateCode = 1) 
         first_frame = frame.copy()
+        first_frame = cv2.rotate(first_frame, rotateCode = 1) 
         break
 
 
 # reinstantiate frame to iterate over the video
 _, frame = cap.read()
+frame = cv2.rotate(frame,rotateCode = 1) 
 frame = cv2.resize(frame, (640, 480))
 
 while True:
@@ -43,6 +49,7 @@ while True:
 
     # resizing for faster detection
     frame = cv2.resize(frame, (640, 480))
+    frame = cv2.rotate(frame,rotateCode = 1) 
 
     # using a greyscale picture, also for faster detection
     gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
@@ -76,6 +83,8 @@ while True:
     cv2.imshow('First Frame', first_frame)
     cv2.imshow('Clean Frame', original)
     cv2.imshow('Rectangle Frame', rectangle)
+
+    out.write(frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
