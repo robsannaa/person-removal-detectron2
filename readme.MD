@@ -1,5 +1,5 @@
 # OpenCV person-removal
-
+## roberto.sannazzaro@gmail.com
 ![Detected Removed](./detected-removed.gif)
 
 This repository contains codes and Notebook regarding the omonimous Medium post. 
